@@ -1,5 +1,4 @@
 # Bouncer
-Bouncer
 ==================================
 This is a simple JavaScript application developed with core JavaScript without using any external JS library.
 I have developed this little application totally for fun.
