@@ -1,8 +1,11 @@
-# Bouncer
+Bouncer
 ==================================
 This is a simple JavaScript application developed with core JavaScript without using any external JS library.
-I have developed this little application totally for fun.
-But in this tiny application i have tried to demonstrate how JS developers can implement OOP, Prototypal Inheritance, Static variable & method, Event Bindings, Callbacks, IIFE(immediately-invoked function expression), Method chaining, factory design pattern, Mathematics etc in their JavaScript application.
+In this tiny application i have tried to demonstrate how JS developers can implement OOP, Prototypal Inheritance, Static method & variable, Event Bindings, Callbacks,
+IIFE(immediately-invoked function expression), Anonymous functions, Method chaining, factory design pattern, Mathematics and some other JavaScript stuffs in their JavaScript application.
+I have developed this application totally for fun. When application starts there will appear 5-6 Kangaroos randomly bouncing around your browser window.
+If you click on one of them with your mouse then that Kangaroo will get attached with your cursor and will start moving wherever you move your mouse pointer.
+If you wanna release it from your cursor click again.
 
 HOW TO RUN
 ========
