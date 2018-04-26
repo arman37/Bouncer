@@ -1,5 +1,8 @@
 /**
- * Created by Arman on 5/5/2016.
+ *
+ * @author arman
+ * @since 5/5/2016.
+ *
  */
 
 (function(kangarooBigger, kangarooSmaller) {
@@ -8,33 +11,36 @@
             JUMP: 1,
             RIGHT: 2,
             LEFT: 0
-            },
-        numberOfKangaroos = 0,
-        viewWidth = 0,
-        viewHeight = 0,
-        prevViewWidth = 0,
-        prevViewHeight = 0,
-        max = 110,
-        min = 2,
-        arrKangaroo = [];
+        };
+    var numberOfKangaroos = 0;
+    var viewWidth = 0;
+    var viewHeight = 0;
+    var prevViewWidth = 0;
+    var prevViewHeight = 0;
+    var max = 110;
+    var min = 2;
+    var arrKangaroo = [];
 
     document.body.style.overflow = 'hidden';
 
     window.addEventListener('resize', function updateView() {
-        var win = window,
-            doc = document,
-            el = doc.documentElement,
-            g = doc.getElementsByTagName('body')[0];
+        var win = window;
+        var doc = document;
+        var el = doc.documentElement;
+        var g = doc.getElementsByTagName('body')[0];
 
         viewWidth = win.innerWidth || el.clientWidth || g.clientWidth;
         viewHeight = win.innerHeight || el.clientHeight || g.clientHeight;
+
         for (var index in arrKangaroo) {
           arrKangaroo[index].x = ((arrKangaroo[index].x * viewWidth) / (prevViewWidth || viewWidth));
           arrKangaroo[index].y = ((arrKangaroo[index].y * viewHeight) / (prevViewHeight || viewHeight));
         }
+
         prevViewWidth = viewWidth;
         prevViewHeight = viewHeight;
-        return updateView
+
+        return updateView;
     }());
 
     /**************** Kangaroo Constructor ****************/
@@ -59,53 +65,61 @@
     Kangaroo.createNewKangaroo = function (kangaroo, jumping, x, y, vx, vy) {
         new Kangaroo(kangaroo, jumping, x, y, vx, vy).init();
         console.log('Total Number of Kangaroos Created:', this.instances);
+
         return this;
     };
 
     Kangaroo.prototype = {
-        init: function(){
-            this.createKangaroo()
-                .setPosition()
-                .bindEvent()
-                .jump()
-                .loop();
+        init: function() {
+            this
+              .createKangaroo()
+              .setPosition()
+              .bindEvent()
+              .jump()
+              .loop();
         },
         loop: function() {
-            this.updateStatus()
-                .render();
+            this
+              .updateStatus()
+              .render();
             this.loopOut = setTimeout(this.loop.bind(this), this.loopInterval);
+
             return this;
         },
         updateStatus: function() {
             /**************** vertical moves ****************/
-            if (!this.isJumping && this.pressed[keys.JUMP]) {
+            if ( !this.isJumping && this.pressed[keys.JUMP] ) {
                 this.isJumping = true;
                 this.changeSize();
                 this.vy = Math.floor(Math.random()*(((max * viewHeight) / 643) - min + 1) + min);
                 this.speed = Math.floor(Math.random()*(22 - 8 + 1) + 8);
-                if(Math.floor(Math.random()*(2)) === 0) {
+
+                if (Math.floor(Math.random()*(2)) === 0) {
                   this.moveLeft();
-                }else {
+                } else {
                   this.moveRight();
                 }
-                if(Math.floor(Math.random()*(2)) === 0) {
+
+                if (Math.floor(Math.random()*(2)) === 0) {
                     this.flip = true;
-                }else {
+                } else {
                     this.flip = false;
                 }
             }
+
             if (this.isJumping) {
                 if(this.flip) this.degrees += this.speed;
                 this.y += this.vy;
                 if (this.vy >= 0 && this.vy <= 0.5) {
                     this.vy = -0.5;
                 }
+
                 if (this.vy > 0) {
                     this.vy /= 1.25;
-                }
-                else {
+                } else {
                     this.vy *= 1.25;
                 }
+
                 if (this.y <= 0) {
                     this.isJumping = false;
                     this.y = 0;
@@ -117,42 +131,49 @@
             /**************** horizontal moves ****************/
             if (this.pressed[keys.RIGHT]) {
                 this.vx = this.moveX;
-            }
-            else if (this.pressed[keys.LEFT]) {
+            } else if (this.pressed[keys.LEFT]) {
                 this.vx = -this.moveX;
-            }
-            else {
+            } else {
                 this.vx = 0;
             }
+
             this.x += this.vx;
-            if(this.x <= 0) {
+            if (this.x <= 0) {
                 this.x += this.moveX;
                 this.moveRight();
-            }else if(this.x >= viewWidth - 40) {
+            } else if (this.x >= viewWidth - 40) {
                 this.x -= this.moveX;
                 this.moveLeft();
             }
+
             return this;
         },
         render: function() {
             this.el.style.bottom = this.y + 'px';
             this.el.style.left = this.x + 'px';
-            if(this.flip) this.rotate(this.el, this.degrees);
+            if (this.flip) {
+              this.rotate(this.el, this.degrees);
+            }
+
             return this;
         },
         jump: function() {
-          this.pressed[keys.JUMP] = true;
+            this.pressed[keys.JUMP] = true;
+
             return this;
         },
         rotate: function(el, degrees) {
-            if(this.pressed[0]) degrees = -degrees;
+            if (this.pressed[0]) {
+              degrees = -degrees;
+            }
+
             if(navigator.userAgent.match("Chrome")){
                 el.style.WebkitTransform = "rotate(" + degrees + "deg)";
-            } else if(navigator.userAgent.match("Firefox")){
+            } else if (navigator.userAgent.match("Firefox")){
                 el.style.MozTransform = "rotate(" + degrees + "deg)";
-            } else if(navigator.userAgent.match("MSIE")){
+            } else if (navigator.userAgent.match("MSIE")){
                 el.style.msTransform = "rotate(" + degrees + "deg)";
-            } else if(navigator.userAgent.match("Opera")){
+            } else if (navigator.userAgent.match("Opera")){
                 el.style.OTransform = "rotate(" + degrees + "deg)";
             } else {
                 el.style.transform = "rotate(" + degrees + "deg)";
@@ -167,30 +188,34 @@
             this.pressed[0] = true;
         },
         changeSize: function() {
-            if(Math.floor(Math.random()*(3)) === 0) {
+            if (Math.floor(Math.random()*(3)) === 0) {
                 this.el.src = kangarooBigger;
-            }else {
+            } else {
                 this.el.src = kangarooSmaller;
             }
         },
         createKangaroo: function() {
-            var doc = document,
-                el = doc.createElement('img');
+            var doc = document;
+            var el = doc.createElement('img');
+
             el.setAttribute('src', this.el);
             el.setAttribute('id', 'Kangaroo_' + ++numberOfKangaroos);
             doc.body.appendChild(el);
             this.el = doc.getElementById('Kangaroo_' + numberOfKangaroos);
             arrKangaroo[numberOfKangaroos - 1] = this;
+
             return this;
         },
         setPosition: function() {
             this.el.style.position = 'absolute';
             this.el.style.bottom = '0px';
             this.el.style.cursor = 'pointer';
+
             return this;
         },
         attachWithMouse: function(e) {
             var obj = _kangaroo.el;
+
             _kangaroo.x = e.clientX - 20;
             _kangaroo.y = viewHeight - e.clientY - 10;
             obj.style.left = e.clientX - 20 + "px";
@@ -198,19 +223,22 @@
         },
         bindEvent: function() {
           var _self = this;
+
           this.el.addEventListener('click', function(e) {
               //_self.vy = (viewHeight - _self.y)/6;
               window._kangaroo = _self;
-              if(!_self.clicked) {
+
+              if (!_self.clicked) {
                   _self.clicked = true;
                   clearTimeout(_self.loopOut);
                   window.addEventListener("mousemove", _self.attachWithMouse);
-              }else {
+              } else {
                   _self.clicked = false;
                   window.removeEventListener("mousemove", _self.attachWithMouse);
                   _self.loop();
               }
           });
+
           return this;
         }
     };
