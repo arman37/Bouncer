@@ -23,7 +23,7 @@ Preview
 ![Screenshot2](/img/screenshot2.png)
 
 ### Contributing
-If you like the project, shoot a star and feel free to fork & send PR anytime.
+If you like the project, shoot a :star: and feel free to fork & send PR anytime.
 
 ### License
 
